@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[36]:
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+# In[37]:
+
+
+df=pd.read_excel('/Users/nazli/Desktop/NeMO MST SessionA pilot data analysis12.xlsx')
+data_df = pd.DataFrame(df)
+data_df
+
+
+# In[38]:
+
+
+df3=df.drop(['RecognitionRatio', 'LDI'], axis = 1)
+print(df3)
+
+
+# In[39]:
+
+
+correctansperc=[]
+targetperc=[]
+lureperc=[]
+foilsperc=[]
+for i in range( len (df3['Name']) ):
+    correctansperc.append(df3['Correct ANS'][i]/66*100)
+    targetperc.append(df3['Target'][i]/22*100)
+    lureperc.append(df3['Lure'][i]/22*100)
+    foilsperc.append(df3['Foils'][i]/22*100)
+df3['correctansperc']=correctansperc
+df3['targetperc']=targetperc
+df3['lureperc']=lureperc
+df3['foilsperc']=foilsperc
+df3
+
+
+# In[43]:
+
+
+plt.style.use("fivethirtyeight")
+fig, ax = plt.subplots(1,1, figsize = (8,6))
+label = df3["Name"]
+x = np.arange(len(label))
+width = 0.2
+rect1 = ax.bar(x - width,
+              df3["correctansperc"],
+              width = width, 
+               label = "correctansperc",
+               edgecolor = "black")
+rect2 = ax.bar(x,
+              df3["lureperc"],
+              width = width,
+              label = "lureperc",
+              edgecolor = "black")
+rect3 = ax.bar(x + width,
+              df3["foilsperc"],
+              width = width,
+              label = "foilsperc",
+              edgecolor = "black")
+ax.legend(title = "Category",
+         fontsize = 16,
+         title_fontsize = 20,
+         bbox_to_anchor = (1.02, 0.7))
+
+ax.set_xlabel("Participants",
+             fontsize = 25,
+             labelpad =20)
+ax.set_title("Correct Responses/Category",
+            fontsize = 30,
+            pad = 20)
+ax.set_xticks(x)
+ax.set_xticklabels(label)
+
+
+# In[ ]:
+
+
+
+
