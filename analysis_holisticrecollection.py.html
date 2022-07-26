@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[30]:
+
+
+import pandas as pd
+import numpy as np
+
+
+# In[31]:
+
+
+df=pd.read_excel('/Users/nazli/Desktop/testn_HolisticMemory_2022-07-15_08h48.19.837 1.xlsx')
+data_df = pd.DataFrame(df)
+data_df
+
+
+# In[32]:
+
+
+dfx= data_df[["Test", "CorrAns","key_resp_3.keys"]]
+print(dfx)
+
+
+# In[33]:
+
+
+dfx=dfx.dropna()
+print(dfx)
+
+
+# In[34]:
+
+
+dfx = dfx.reset_index(drop=True)
+print(dfx)
+
+
+# In[39]:
+
+
+dfx[['Testname', 'Block', 'Number', 'FileName']]=dfx['Test'].str.split('/', expand=True)
+print(dfx)
+
+
+# In[41]:
+
+
+dfx[['no use', 'Combinations', 'Event', 'Eventnumber']] = dfx['FileName'].str.split('_', expand=True)
+print(dfx)
+
+
+# In[44]:
+
+
+dfx = dfx[['Test', 'CorrAns', 'key_resp_3.keys', 'Number','Block', 'FileName', 'Combinations']]
+print(dfx)
+
+
+# In[51]:
+
+
+answers = dfx['key_resp_3.keys'].tolist()
+c_answers = dfx['CorrAns'].tolist()
+
+counter = 0
+right_answers = []
+for x in answers:
+    if x == c_answers[counter]:
+        right_answers.append(1)
+    else:
+        right_answers.append(0)
+    counter +=1
+dfx['right_answers'] = right_answers
+print(dfx)
+
+
+
+# In[ ]:
+
+
+
+
